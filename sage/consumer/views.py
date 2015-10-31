@@ -16,12 +16,12 @@ def consume(request):
         return HttpResponseNotAllowed
 
     message = str(json.loads(request.body)['message'])
-    longitude = float(json.loads(request.body)['longitude'])
-    latitude = float(json.loads(request.body)['latitude'])
+    #longitude = float(json.loads(request.body)['longitude'])
+    #latitude = float(json.loads(request.body)['latitude'])
 
     response = urllib2.urlopen(str.format("https://api.projectoxford.ai/luis/v1/application?{}&q={}",
                                           app_id, urllib.quote_plus(message))).read()
-    
+
     intent = response['intents'][0]['intent']
 
     return HttpResponse(intent)
