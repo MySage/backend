@@ -16,6 +16,8 @@ def consume(request):
         return HttpResponseNotAllowed
 
     json_data = json.loads(request.body)
-    response = urllib2.urlopen(str.format("https://api.projectoxford.ai/luis/v1/application?%s&q=rain", app_id)).read()
+
+    response = urllib2.urlopen(str.format("https://api.projectoxford.ai/luis/v1/application?{}&q={}",
+                                          app_id, json_data['message'])).read()
     return HttpResponse(response)
 
