@@ -4,8 +4,10 @@ from django.shortcuts import render
 from django.http import HttpResponse, JsonResponse
 from models import *
 from django.core import serializers
+from django.views.decorators.csrf import csrf_exempt
 
 
+@csrf_exempt
 def index(request):
     return HttpResponse("Hello, world. You're at the user index.")
 
@@ -15,5 +17,6 @@ def all_users(request):
     return JsonResponse(dict(users=list(users)))
 
 
+@csrf_exempt
 def login(request):
     return HttpResponse(request.POST.get('password'))
