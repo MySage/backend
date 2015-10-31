@@ -11,5 +11,5 @@ def index(request):
 
 
 def all_users(request):
-    users = User.objects.all()
-    return JsonResponse(serializers.serialize("json", users), safe=False)
+    users = User.objects.values('name', 'phone_number')
+    return JsonResponse(dict(users=list(users)))
