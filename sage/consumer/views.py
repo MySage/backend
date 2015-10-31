@@ -24,5 +24,5 @@ def consume(request):
 
     intent = response.get('intents')[0].get('intent')
 
-    return JsonResponse(intent)
+    return HttpResponse(intent)
 
