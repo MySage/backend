@@ -38,7 +38,7 @@ def weather(entities, latitude, longitude):
 
     response = json.loads(urllib2.urlopen(api_url).read())
 
-    return response.get('weather').get('description')
+    return response.get('weather')[0].get('description')
 
     # term = ''
     # for entity in entities:
