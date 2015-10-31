@@ -11,5 +11,9 @@ def index(request):
 
 
 def all_users(request):
-    users = User.objects.values('name', 'phone_number')
+    users = User.objects.values('name', 'password', 'phone_number')
     return JsonResponse(dict(users=list(users)))
+
+
+def login(request):
+    return HttpResponse(request.post)
