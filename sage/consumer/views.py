@@ -19,8 +19,10 @@ def consume(request):
     #longitude = float(json.loads(request.body)['longitude'])
     #latitude = float(json.loads(request.body)['latitude'])
 
-    response = urllib2.urlopen(str.format("https://api.projectoxford.ai/luis/v1/application?{}&q={}",
-                                          app_id, urllib.quote_plus(message))).read()
+    response = json.loads(urllib2.urlopen(str.format("https://api.projectoxford.ai/luis/v1/application?{}&q={}",
+                                          app_id, urllib.quote_plus(message))).read())
 
-    return JsonResponse(json.loads(response))
+    intent = response['intents'][0]['intent']
+
+    return JsonResponse(intent)
 
