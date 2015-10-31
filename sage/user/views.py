@@ -11,5 +11,8 @@ def index(request):
 
 
 def all_users(request):
+    array = list()
     users = User.objects.all()
-    return JsonResponse({"users": users})
+    for u in users:
+        array.append(u)
+    return JsonResponse({"users": array})
