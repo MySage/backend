@@ -18,6 +18,6 @@ def consume(request):
     message = str(json.loads(request.body)['message'])
 
     response = urllib2.urlopen(str.format("https://api.projectoxford.ai/luis/v1/application?{}&q={}",
-                                          app_id, urllib.urlencode(message))).read()
+                                          app_id, urllib.quote_plus(message))).read()
     return HttpResponse(response)
 
