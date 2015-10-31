@@ -3,7 +3,7 @@ from django.shortcuts import render
 # Create your views here.
 from django.http import HttpResponse, JsonResponse
 from models import *
-import json
+from django.core import serializers
 
 
 def index(request):
@@ -12,4 +12,4 @@ def index(request):
 
 def all_users(request):
     users = User.objects.all()
-    return HttpResponse(users)
+    return JsonResponse(serializers.serialize("json", users))
