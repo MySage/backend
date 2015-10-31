@@ -12,4 +12,4 @@ def index(request):
 
 def all_users(request):
     users = User.objects.all()
-    return JsonResponse(json.dumps(users))
+    return JsonResponse({"users": users})
