@@ -20,4 +20,5 @@ def all_users(request):
 
 @csrf_exempt
 def login(request):
-    return JsonResponse(json.loads(request.body))
+    json_data = json.loads(request.body)
+    return HttpResponse(json_data['password'])
