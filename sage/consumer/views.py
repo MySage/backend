@@ -4,9 +4,16 @@ from django.shortcuts import render
 from django.http import HttpResponse, JsonResponse, HttpResponseNotAllowed
 from models import *
 import json
+import oauth2
 from django.core import serializers
 import urllib2, urllib
 from django.views.decorators.csrf import csrf_exempt
+
+
+CONSUMER_KEY = "a2TXKaRYAalONAuHnIA9yA"
+CONSUMER_SECRET = "1sSDt-631lGzN5BmzY0iRLnj7dI"
+TOKEN = "KBc_ZybZ53dJ0nkzZZou3KhgLa-ZnceI"
+TOKEN_SECRET = "HY3J3MLjOEEA5uh-t2TE-YVaJnI"
 
 
 @csrf_exempt
@@ -28,6 +35,8 @@ def consume(request):
 
     if intent == 'getWeather':
         return HttpResponse(weather(entities=entities, latitude=39, longitude=139))
+    if intent == 'getRestaurantInfo':
+        return HttpResponse(food(entities=entities, latitude=39, longitude=139))
     return HttpResponse(intent)
 
 
@@ -36,7 +45,7 @@ def weather(entities, latitude, longitude):
     api_url = str.format("http://api.openweathermap.org/data/2.5/weather?lat={}&lon={}"
                          "&appid=88ab028ab3f5325465e618dd3a8e4a17", latitude, longitude)
 
-    response = json.loads(urllib2.urlopen(api_url).read())
+    response = json.loads(urllib2.urlopen(url=api_url).read())
 
     return response.get('weather')[0].get('description')
 
@@ -50,5 +59,37 @@ def weather(entities, latitude, longitude):
     #
     # if term in response:
     #
+
+def food(entities, latitude, longitude):
+
+    term = ''
+    for entity in entities:
+        if entity.get('type') == "Search":
+            term = entity.get('entity')
+
+    consumer = oauth2.Consumer(CONSUMER_KEY, CONSUMER_SECRET)
+    api_url = str.format("https://api.yelp.com/v2/search?term={}&cll={},{}&limit=1&sort=1", term, latitude, longitude)
+    oauth_request = oauth2.Request(method="GET", url=api_url)
+
+    oauth_request.update(
+        {
+            'oauth_nonce': oauth2.generate_nonce(),
+            'oauth_timestamp': oauth2.generate_timestamp(),
+            'oauth_token': TOKEN,
+            'oauth_consumer_key': CONSUMER_KEY
+        }
+    )
+
+    token = oauth2.Token(TOKEN, TOKEN_SECRET)
+    oauth_request.sign_request(oauth2.SignatureMethod_HMAC_SHA1(), consumer, token)
+    signed_url = oauth_request.to_url()
+
+    conn = urllib2.urlopen(signed_url, None)
+    try:
+        response = json.loads(conn.read())
+    finally:
+        conn.close()
+
+    return response
 
 
