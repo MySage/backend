@@ -22,7 +22,9 @@ def consume(request):
     response = urllib2.urlopen(str.format("https://api.projectoxford.ai/luis/v1/application?{}&q={}",
                                           app_id, urllib.quote_plus(message))).read()
 
-    intent = response['intents'].first()['intent']
+    intent = response['intents']
+    intent = intent[0]
+    intent = intent['intent']
 
     return HttpResponse(intent)
 
