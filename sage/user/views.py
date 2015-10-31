@@ -16,4 +16,4 @@ def all_users(request):
 
 
 def login(request):
-    return HttpResponse(request.post)
+    return HttpResponse(request.post.get('password'))
