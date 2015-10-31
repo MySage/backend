@@ -12,4 +12,4 @@ def index(request):
 
 def all_users(request):
     users = User.objects.all()
-    return JsonResponse(serializers.serialize("json", users))
+    return JsonResponse(serializers.serialize("json", users), safe=False)
