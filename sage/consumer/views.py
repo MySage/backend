@@ -62,10 +62,11 @@ def weather(entities, latitude, longitude):
 
 def food(entities, latitude, longitude):
 
-    term = ''
+    term = 'food'
     for entity in entities:
         if entity.get('type') == "Search":
             term = entity.get('entity')
+
 
     consumer = oauth2.Consumer(CONSUMER_KEY, CONSUMER_SECRET)
     api_url = str.format("https://api.yelp.com/v2/search?term={}&cll={},{}&limit=1&sort=1", term, latitude, longitude)
@@ -84,11 +85,7 @@ def food(entities, latitude, longitude):
     oauth_request.sign_request(oauth2.SignatureMethod_HMAC_SHA1(), consumer, token)
     signed_url = oauth_request.to_url()
 
-    conn = urllib2.urlopen(signed_url, None)
-    try:
-        response = json.loads(conn.read())
-    finally:
-        conn.close()
+    response = json.loads(urllib2.urlopen(url=signed_url).read())
 
     return response
 
