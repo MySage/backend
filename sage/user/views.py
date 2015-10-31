@@ -3,6 +3,7 @@ from django.shortcuts import render
 # Create your views here.
 from django.http import HttpResponse, JsonResponse
 from models import *
+import json
 from django.core import serializers
 from django.views.decorators.csrf import csrf_exempt
 
@@ -19,4 +20,4 @@ def all_users(request):
 
 @csrf_exempt
 def login(request):
-    return HttpResponse(request.POST)
+    return HttpResponse(json.loads(request.body))
