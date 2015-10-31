@@ -22,7 +22,7 @@ def consume(request):
     response = json.loads(urllib2.urlopen(str.format("https://api.projectoxford.ai/luis/v1/application?{}&q={}",
                                           app_id, urllib.quote_plus(message))).read())
 
-    intent = response.get('intents')
+    intent = response.get('intents')[0]
 
     return JsonResponse(intent)
 
