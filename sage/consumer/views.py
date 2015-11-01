@@ -144,7 +144,7 @@ def math(entities):
 
     for child in root:
         child_attrib = child.attrib
-        return child_attrib.text
+        return child.tag
         text = child_attrib["title"]
 
         if text == "Plot" or text == "Result": 
