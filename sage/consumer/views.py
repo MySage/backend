@@ -34,10 +34,10 @@ def consume(request):
     entities = response.get('entities')
 
     if intent == 'getWeather':
-        return HttpResponse(weather(entities=entities, latitude=39, longitude=139))
+        return JsonResponse(dict(message=weather(entities=entities, latitude=39, longitude=139)))
     if intent == 'getRestaurantInfo':
-        return HttpResponse(food(entities=entities, latitude=39, longitude=139))
-    return HttpResponse(intent)
+        return JsonResponse(dict(food(entities=entities, latitude=39, longitude=139)))
+    return JsonResponse(dict(message=intent))
 
 
 def weather(entities, latitude, longitude):
@@ -60,13 +60,13 @@ def weather(entities, latitude, longitude):
     # if term in response:
     #
 
+
 def food(entities, latitude, longitude):
 
     term = 'food'
     for entity in entities:
         if entity.get('type') == "Search":
             term = entity.get('entity')
-
 
     consumer = oauth2.Consumer(CONSUMER_KEY, CONSUMER_SECRET)
     api_url = str.format("https://api.yelp.com/v2/search?term={}&ll={},{}&limit=1&sort=1", term, latitude, longitude)
