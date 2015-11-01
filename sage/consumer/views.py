@@ -38,7 +38,7 @@ def consume(request):
     if intent == 'getRestaurantInfo':
         return JsonResponse(dict(message=food(entities=entities, latitude=42, longitude=-71)))
     if intent == 'doEquation':
-        return JsonResponse(dict(message=equation(entities=entities)))
+        return JsonResponse(dict(message=math(entities=entities)))
     return JsonResponse(dict(message=intent))
 
 
@@ -111,5 +111,5 @@ def math(entities):
     math_request = math_operation + ' ' + equation
     api_url = str.format(base_url, math_request, "format=image")
 
-    return json.loads(urllib2.urlopen(url=api_url).read())
+    return api_url
 
