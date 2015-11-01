@@ -124,11 +124,9 @@ IF EXIST "%DEPLOYMENT_SOURCE%\web.%PYTHON_VER%.config" (
 :: 6. Django collectstatic
 IF EXIST "%DEPLOYMENT_TARGET%\manage.py" (
   IF EXIST "%DEPLOYMENT_TARGET%\env\lib\site-packages\django" (
-    IF NOT EXIST "%DEPLOYMENT_TARGET%\.skipDjango" (
       echo Collecting Django static files. You can skip Django specific steps with a .skipDjango file.
       IF NOT EXIST "%DEPLOYMENT_TARGET%\static" (
         MKDIR "%DEPLOYMENT_TARGET%\static"
-      )
       env\scripts\python manage.py runserver 0.0.0.0:8000
     )
   )
