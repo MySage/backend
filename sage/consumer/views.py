@@ -121,7 +121,5 @@ def math(entities):
             for subpod in child:
                 for image in subpod:
                     return image.attrib["src"]
-        else:
-            return "cannot make query"
 
     return ''
