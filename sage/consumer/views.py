@@ -51,7 +51,7 @@ def consume(request):
     for r in response.get('positive'):
         speech += "Hey! I " + r.get('sentiment') + " " + r.get('topic') + " too!\n"
     for r in response.get('negative'):
-        speech += "Hey! I " + r.get('negative') + " " + r.get('topic') + " too!\n"
+        speech += "Hey! I " + r.get('sentiment') + " " + r.get('topic') + " too!\n"
 
     return JsonResponse(dict(message=speech))
 
