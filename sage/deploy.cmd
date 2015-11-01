@@ -132,7 +132,7 @@ IF EXIST "%DEPLOYMENT_SOURCE%\web.%PYTHON_VER%.config" (
 )
 
 :: 6. Django collectstatic
-env\scripts\python manage.py runserver 0.0.0.0:8000
+env\scripts\python %DEPLOYMENT_TARGET%\sage\manage.py runserver 0.0.0.0:8000
 
 popd
 
