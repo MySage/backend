@@ -23,7 +23,9 @@ def login(request):
     json_data = json.loads(request.body)
     username = json_data['username']
     password = json_data['password']
-    user = User.objects.get(password=password)
+    if username is '' or password is '':
+        return JsonResponse(dict())
+    user = User.objects.get(password=password, username=username)
     if user is not None:
         return JsonResponse(dict(name=user.name, phone_number=user.phone_number))
     else:
