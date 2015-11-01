@@ -146,5 +146,5 @@ def math(entities):
 def greetings(entities):
 
     greetings = ['hey lovely', 'hello', 'how are you doing?', 'what up?', 'hi there', 'Hi, my name is Sage', 'hey good looking', 'sup homie']
-    rand_int = randint(0, len(greetings) - 1)
+    rand_int = random.randint(0, len(greetings) - 1)
     return greetings[rand_int]
