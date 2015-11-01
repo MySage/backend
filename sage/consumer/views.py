@@ -144,13 +144,13 @@ def math(entities):
 
     for child in root:
         child_attrib = child.attrib
-        return child.tag
-        text = child_attrib["title"]
+        if child.tag == "pod":
+            text = child_attrib["title"]
 
-        if text == "Plot" or text == "Result": 
-            for subpod in child:
-                for image in subpod:
-                    return image.attrib["src"]
+            if text == "Plot" or text == "Result": 
+                for subpod in child:
+                    for image in subpod:
+                        return image.attrib["src"]
     return ''
 
 def greetings(entities):
