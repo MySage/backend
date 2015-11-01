@@ -36,7 +36,7 @@ def consume(request):
     if intent == 'getWeather':
         return JsonResponse(dict(message=weather(entities=entities, latitude=39, longitude=139)))
     if intent == 'getRestaurantInfo':
-        return JsonResponse(dict(food(entities=entities, latitude=39, longitude=139)))
+        return JsonResponse(dict(message=food(entities=entities, latitude=39, longitude=139)))
     return JsonResponse(dict(message=intent))
 
 
