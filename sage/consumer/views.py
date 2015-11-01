@@ -115,7 +115,7 @@ def math(entities):
     tree = elementTree.fromstring(xml_response)
     root = tree.getroot()
 
-    return root.findall('pod')
+    return root
 
     # for pod in root.findall('pod'):
     #     return pod
