@@ -24,23 +24,37 @@ def consume(request):
         return HttpResponseNotAllowed
 
     message = str(json.loads(request.body)['message'])
-    #longitude = float(json.loads(request.body)['longitude'])
-    #latitude = float(json.loads(request.body)['latitude'])
+    response = json.loads(urllib2.urlopen(
+        str.format("https://api.havenondemand.com/1/api/sync/analyzesentiment/v1?text={}&apikey=5d1ba3b9-3913-4e21-8f1f-fcfd398bfaf3",
+                   urllib.quote_plus(message))).read())
 
-    response = json.loads(urllib2.urlopen(str.format("https://api.projectoxford.ai/luis/v1/application?{}&q={}",
-                                          app_id, urllib.quote_plus(message))).read())
+    if response.get('aggregate').get('sentiment') == 'neutral':
 
-    intent = response.get('intents')[0].get('intent')
+        #longitude = float(json.loads(request.body)['longitude'])
+        #latitude = float(json.loads(request.body)['latitude'])
 
-    entities = response.get('entities')
+        response = json.loads(urllib2.urlopen(str.format("https://api.projectoxford.ai/luis/v1/application?{}&q={}",
+                                              app_id, urllib.quote_plus(message))).read())
 
-    if intent == 'getWeather':
-        return JsonResponse(dict(message=weather(entities=entities, latitude=42, longitude=-71)))
-    if intent == 'getRestaurantInfo':
-        return JsonResponse(dict(message=food(entities=entities, latitude=42, longitude=-71)))
-    if intent == 'doEquation':
-        return JsonResponse(dict(message=math(entities=entities)))
-    return JsonResponse(dict(message=intent))
+        intent = response.get('intents')[0].get('intent')
+
+        entities = response.get('entities')
+
+        if intent == 'getWeather':
+            return JsonResponse(dict(message=weather(entities=entities, latitude=42, longitude=-71)))
+        if intent == 'getRestaurantInfo':
+            return JsonResponse(dict(message=food(entities=entities, latitude=42, longitude=-71)))
+        if intent == 'doEquation':
+            return JsonResponse(dict(message=math(entities=entities)))
+    speech = ''
+    if response.get('aggregate').get('sentiment') == 'positive':
+        for r in response.get('positive'):
+            speech += "I " + r.get('sentiment') + " " + r.get('topic') + "too!"
+    if response.get('aggregate').get('sentiment') == 'negative':
+        for r in response.get('positive'):
+            speech += "I " + r.get('negative') + " " + r.get('topic') + "too!"
+
+    return JsonResponse(dict(message=speech))
 
 
 def weather(entities, latitude, longitude):
