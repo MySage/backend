@@ -47,12 +47,11 @@ def consume(request):
         if intent == 'doEquation':
             return JsonResponse(dict(message=math(entities=entities)))
     speech = ''
-    if response.get('aggregate').get('sentiment') == 'positive':
-        for r in response.get('positive'):
-            speech += "I " + r.get('sentiment') + " " + r.get('topic') + "too!"
-    if response.get('aggregate').get('sentiment') == 'negative':
-        for r in response.get('positive'):
-            speech += "I " + r.get('negative') + " " + r.get('topic') + "too!"
+
+    for r in response.get('positive'):
+        speech += "Hey! I " + r.get('sentiment') + " " + r.get('topic') + " too!\n"
+    for r in response.get('negative'):
+        speech += "Hey! I " + r.get('negative') + " " + r.get('topic') + " too!\n"
 
     return JsonResponse(dict(message=speech))
 
