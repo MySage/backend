@@ -8,7 +8,7 @@ import oauth2
 from django.core import serializers
 import urllib2, urllib
 from django.views.decorators.csrf import csrf_exempt
-import xml.etree.ElementTree
+import xml.etree.ElementTree as elementTree
 
 
 CONSUMER_KEY = "a2TXKaRYAalONAuHnIA9yA"
@@ -112,12 +112,14 @@ def math(entities):
     math_request = math_operation + ' ' + equation
     api_url = str.format("http://api.wolframalpha.com/v2/query?appid=KYP3UW-35R4EETYA3&input={}&format=image", urllib.quote_plus(math_request))
     xml_response =  urllib2.urlopen(url=api_url).read()
+    tree = elementTree.fromstring(xml_response)
+    root = tree.getroot()
 
-    e = xml.etree.ElementTree.parse(xml_response).getroot()
-
-    for pod in e.findall('pod'):
-        if pod.get('title') ==  "Plot":
-            for image in pod.findall('img'):
-                return image.get('src')
+    for pod in root.findall('pod'):
+        if pod.get('title') == "Plots":
+            subpod = pod.find('subpod')
+            image = subpod.find('img')
+            return image.get('src')
 
     return ''
+
