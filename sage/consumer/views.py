@@ -133,10 +133,10 @@ def math(entities):
     if math_operation == '':
         api_url = str.format("http://api.wolframalpha.com/v2/query?appid=KYP3UW-J5AA9E5U9W&input={}&format=image", urllib.quote(equation))
     else:
+        math_request = math_operation + ' ' + equation
         api_url = str.format("http://api.wolframalpha.com/v2/query?appid=KYP3UW-J5AA9E5U9W&input={}&format=image",
                          urllib.quote_plus(math_request))
 
-    math_request = math_operation + ' ' + equation
 
     xml_response = urllib2.urlopen(url=api_url).read()
     root = elementTree.fromstring(xml_response)
