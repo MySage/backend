@@ -119,7 +119,7 @@ def math(entities):
         if child_attrib["title"] == "Plots": 
             for subpod in child:
                 for image in subpod:
-                    return image.attrib
+                    return image.attrib["src"]
 
     return root.attrib
 
