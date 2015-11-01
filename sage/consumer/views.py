@@ -142,17 +142,19 @@ def math(entities):
     xml_response = urllib2.urlopen(url=api_url).read()
     root = elementTree.fromstring(xml_response)
 
+    total_text = ''
+
     for child in root:
         child_attrib = child.attrib
         if child.tag == "pod":
             text = child_attrib["title"]
+            total_text = total_text + text + ' '
             if text == "Plot" or text == "Result": 
                 for subpod in child:
-                    return subpod.attrib
                     for image in subpod:
                         return image.attrib["src"]
     
-    return ''
+    return total_text
 
 def greetings(entities):
     greetings = ['hey lovely','hey good looking', 'hello', 'how are you doing?', 'hey good looking', 'what up?',
