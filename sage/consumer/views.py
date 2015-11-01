@@ -126,23 +126,29 @@ def math(entities):
         if entity.get('type') == "Equation":
             equation = entity.get('entity')
 
-    if math_operation == '' and equation == '':
+    if equation == '':
         return ''
 
-    math_request = math_operation + ' ' + equation
-    api_url = str.format("http://api.wolframalpha.com/v2/query?appid=KYP3UW-35R4EETYA3&input={}&format=image",
+    api_url = ''
+    if math_operation == '':
+        api_url = str.format("http://api.wolframalpha.com/v2/query?appid=KYP3UW-J5AA9E5U9W&input={}&format=image", urllib.quote(equation))
+    else:
+        api_url = str.format("http://api.wolframalpha.com/v2/query?appid=KYP3UW-J5AA9E5U9W&input={}&format=image",
                          urllib.quote_plus(math_request))
+
+    math_request = math_operation + ' ' + equation
+
     xml_response = urllib2.urlopen(url=api_url).read()
     root = elementTree.fromstring(xml_response)
 
     for child in root:
         child_attrib = child.attrib
+        text = child_attrib["title"]
 
-        if child_attrib["title"] == "Plots": 
+        if text == "Plots" or text == "Result": 
             for subpod in child:
                 for image in subpod:
                     return image.attrib["src"]
-
     return ''
 
 def greetings(entities):
