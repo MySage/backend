@@ -1,7 +1,7 @@
 from django.shortcuts import render
 
 # Create your views here.
-from django.http import HttpResponse, JsonResponse
+from django.http import HttpResponse, JsonResponse, HttpResponseForbidden
 from models import *
 import json
 from django.core import serializers
@@ -21,4 +21,10 @@ def all_users(request):
 @csrf_exempt
 def login(request):
     json_data = json.loads(request.body)
-    return HttpResponse(json_data['password'])
+    username = json_data['username']
+    password = json_data['password']
+    user = User.objects.get(password=password)
+    if user is not None:
+        return HttpResponse("OK")
+    else:
+        return HttpResponseForbidden
