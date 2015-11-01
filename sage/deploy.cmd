@@ -26,9 +26,8 @@ IF NOT DEFINED DEPLOYMENT_SOURCE (
   SET DEPLOYMENT_SOURCE=%~dp0%.
 )
 
-IF NOT DEFINED DEPLOYMENT_TARGET (
-  SET DEPLOYMENT_TARGET=%ARTIFACTS%\wwwroot
-)
+SET DEPLOYMENT_TARGET=/site/wwwroot
+
 
 IF NOT DEFINED NEXT_MANIFEST_PATH (
   SET NEXT_MANIFEST_PATH=%ARTIFACTS%\manifest
@@ -121,14 +120,12 @@ IF EXIST "%DEPLOYMENT_SOURCE%\web.%PYTHON_VER%.config" (
   copy /y "%DEPLOYMENT_SOURCE%\web.%PYTHON_VER%.config" "%DEPLOYMENT_TARGET%\web.config"
 )
 
+echo pip installing django
+\site\wwwroot\env\scripts\pip install django
+
 :: 6. Django collectstatic
-IF EXIST "%DEPLOYMENT_TARGET%\manage.py" (
-  IF EXIST "%DEPLOYMENT_TARGET%\env\lib\site-packages\django" (
-      echo Collecting Django static files. You can skip Django specific steps with a .skipDjango file.
-      IF NOT EXIST "%DEPLOYMENT_TARGET%\static" (
-        MKDIR "%DEPLOYMENT_TARGET%\static"
-      env\scripts\python manage.py runserver 0.0.0.0:8000
-    )
+IF EXIST "\site\wwwroot\manage.py" (
+    \site\wwwroot\env\scripts\python \site\wwwroot\manage.py runserver 0.0.0.0:8000
   )
 )
 
