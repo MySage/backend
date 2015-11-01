@@ -154,13 +154,13 @@ def math(entities):
     return ''
 
 def greetings(entities):
-    greetings = ['hey lovely','hey good looking', 'hello', 'how are you doing?', 'hey good looking', 'what up?',
-                 'hi there', 'Hi, my name is Sage', 'hey good looking', 'sup homie']
+    greetings = ['hey lovely','hey good looking', 'hello', 'hey good looking', 'what up?',
+                 'hi there', 'Hi, my name is Sage', 'hey good looking', 'sup homie', "what's up homie?", 'hey poopie head <3', 'Hey, I am Sage, your personal asisstant and BFFL']
     rand_int = random.randint(0, len(greetings) - 1)
     return greetings[rand_int]
 
 def compliment():
-    compliments = ['thank you', 'thanks', 'much appreciated', 'you are the best', 'that is awesome', 'cool beans', 'yeye', 'read my mind']
+    compliments = ['thank you', 'thanks', 'much appreciated', 'you are the best', 'that is awesome', 'cool beans', 'yeye', 'sweet, thanks', 'thanks cutie pie', 'aw shucks', "don't make me blush", '<3', 'love ya']
     rand_int = random.randint(0, len(compliments) - 1)
     return compliments[rand_int]
 
