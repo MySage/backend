@@ -116,19 +116,17 @@ def math(entities):
 
     for child in root:
         child_attrib = child.attrib
-        if child_attrib["title"] == "Plots": 
+
+        check_string = ''
+
+        if math_operation.lower() == "Plots":
+            check_string = "Plots"
+        else:
+            check_string = "Result"
+
+        if child_attrib["title"] == check_string: 
             for subpod in child:
                 for image in subpod:
                     return image.attrib["src"]
 
     return root.attrib
-
-    # for pod in root.findall('pod'):
-    #     return pod
-        # if pod.get('title') == "Plots":
-        #     return pod
-        #     subpod = pod.find('subpod')
-        #     image = subpod.find('img')
-        #     return image.get('src')
-
-
