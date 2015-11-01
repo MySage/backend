@@ -31,8 +31,8 @@ def consume(request):
     if len(response.get('positive')) < 1 and len(response.get('negative')) < 1 and \
             response.get('aggregate').get('sentiment') == 'neutral':
 
-        longitude = float(json.loads(request.body)['longitude'])
-        latitude = float(json.loads(request.body)['latitude'])
+        longitude = -71#float(json.loads(request.body)['longitude'])
+        latitude = 42#float(json.loads(request.body)['latitude'])
 
         response = json.loads(urllib2.urlopen(str.format("https://api.projectoxford.ai/luis/v1/application?{}&q={}",
                                               app_id, urllib.quote_plus(message))).read())
