@@ -81,7 +81,7 @@ DATABASES = {
         'NAME': 'sage',
         'USER': 'root',
         'PASSWORD': 'root',
-        'HOST': '127.0.0.1',
+        'HOST': '127.0.0.1', #52.88.98.2
         'PORT': '3306',
     }
 }
