@@ -6,7 +6,7 @@ from models import *
 import json
 import oauth2
 from django.core import serializers
-import urllib2, urllib
+import urllib2, urllib, xmltodict
 from django.views.decorators.csrf import csrf_exempt
 
 
@@ -90,4 +90,22 @@ def food(entities, latitude, longitude):
     return response.get('businesses')[0].get('name') + " " + \
            response.get('businesses')[0].get('location').get('display_address')[0]
 
+def math(entity):
+    base_url = 'http://api.wolframalpha.com/v2/query?appid=xxx'
+    math_operation = ''
+    equation = ''   
+
+    for entity in entities:
+        if entity.get('type') == "MathOperation":
+            math_operation = entity.get('entity')
+        if entity.get('type') == "Equation":
+            equation = entity.get('entity')
+
+    if math_operation == '' && equation == '':
+        return ''
+
+    math_request = math_operation + ' ' + equation
+    api_url = str.format(base_url, math_request, "format=image")
+
+    return json.loads(urllib2.urlopen(url=api_url).read())
 
