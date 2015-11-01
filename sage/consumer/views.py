@@ -144,4 +144,6 @@ def math(entities):
     return ''
 
 def greetings(entities):
-    return 'hello you sweet ass motherfucker <3'
+    greetings = ['hey lovely','hey good looking', 'hello', 'how are you doing?', 'hey good looking', 'what up?', 'hi there', 'Hi, my name is Sage', 'hey good looking', 'sup homie']
+    rand_int = random.randint(0, len(greetings) - 1)
+    return greetings[rand_int]
