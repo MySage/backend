@@ -40,25 +40,24 @@ def consume(request):
         intent = response.get('intents')[0].get('intent')
 
         entities = response.get('entities')
-
         if intent == 'getWeather':
-            return JsonResponse(dict(message=weather(entities=entities, latitude=42, longitude=-71)))
+            return JsonResponse(dict(message=weather(entities=entities, latitude=42, longitude=-71), type='weather'))
         if intent == 'getRestaurantInfo':
-            return JsonResponse(dict(message=food(entities=entities, latitude=42, longitude=-71)))
+            return JsonResponse(dict(message=food(entities=entities, latitude=42, longitude=-71)), type='food')
         if intent == 'doEquation':
-            return JsonResponse(dict(message=math(entities=entities)))
+            return JsonResponse(dict(message=math(entities=entities), type='math'))
         if intent == 'getGreeting':
-            return JsonResponse(dict(message=greetings(entities=entities)))
+            return JsonResponse(dict(message=greetings(entities=entities), type='greeting'))
         if intent == 'getStocks':
-            return JsonResponse(dict(message=stocks(entities=entities)))
+            return JsonResponse(dict(message=stocks(entities=entities), type='stocks'))
         if intent == 'getCompliment':
-            return JsonResponse(dict(message=compliment()))
+            return JsonResponse(dict(message=compliment(), type='compliment'))
         if intent == 'None':
-            return JsonResponse(dict(message="What do you mean?"))
+            return JsonResponse(dict(message="What do you mean?"), type='exception')
 
     speech = ''
     for r in response.get('positive'):
-        return JsonResponse(dict(message=compliment()))
+        return JsonResponse(dict(message=compliment(), type='compliment'))
     for r in response.get('negative'):
         speech += "Hey! I " + r.get('sentiment') + " " + r.get('topic') + " too!\n"
 
