@@ -25,6 +25,6 @@ def login(request):
     password = json_data['password']
     user = User.objects.get(password=password)
     if user is not None:
-        return HttpResponse("OK")
+        return JsonResponse(dict(name=user.name, phone_number=user.phone_number))
     else:
         return HttpResponseForbidden
