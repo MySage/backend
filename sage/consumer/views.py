@@ -89,7 +89,7 @@ def food(entities, latitude, longitude):
     response = json.loads(urllib2.urlopen(url=signed_url).read())
 
     return response.get('businesses')[0].get('name') + " " + \
-           response.get('businesses')[0].get('location').get('ddisplay_address')[0]
+           response.get('businesses')[0].get('location').get('display_address')[0]
 
 
 def math(entities):
