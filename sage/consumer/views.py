@@ -116,11 +116,12 @@ def math(entities):
     root = tree.getroot()
 
     for pod in root.findall('pod'):
-        if pod.get('title') == "Plots":
-            return pod
-            # subpod = pod.find('subpod')
-            # image = subpod.find('img')
-            # return image.get('src')
+        return pod
+        # if pod.get('title') == "Plots":
+        #     return pod
+        #     subpod = pod.find('subpod')
+        #     image = subpod.find('img')
+        #     return image.get('src')
 
     return ''
 
