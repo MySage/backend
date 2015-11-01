@@ -87,6 +87,7 @@ def food(entities, latitude, longitude):
 
     response = urllib2.urlopen(url=signed_url).read()
 
-    return response
+    return response.get('businesses')[0].get('name') + " " + \
+           response.get('businesses')[0].get('location').get('display_address')[0]
 
 
