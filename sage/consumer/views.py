@@ -90,7 +90,7 @@ def food(entities, latitude, longitude):
     return response.get('businesses')[0].get('name') + " " + \
            response.get('businesses')[0].get('location').get('display_address')[0]
 
-def math(entity):
+def math(entities):
     base_url = 'http://api.wolframalpha.com/v2/query?appid=xxx'
     math_operation = ''
     equation = ''   
