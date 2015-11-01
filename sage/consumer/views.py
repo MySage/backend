@@ -129,4 +129,4 @@ def math(entities):
                 for image in subpod:
                     return image.attrib["src"]
 
-    return root.attrib
+    return ''
