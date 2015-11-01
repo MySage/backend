@@ -6,7 +6,7 @@ from models import *
 import json
 import oauth2
 from django.core import serializers
-import urllib2, urllib, xmltodict
+import urllib2, urllib
 from django.views.decorators.csrf import csrf_exempt
 
 
