@@ -51,6 +51,8 @@ def consume(request):
             return JsonResponse(dict(message=greetings(entities=entities)))
         if intent == 'getStocks':
             return JsonResponse(dict(message=stocks(entities=entities)))
+        if intent == 'getCompliment':
+            return JsonResponse(dict(message=compliment(entities=entities)))
         if intent == 'None':
             return JsonResponse(dict(message="What do you mean?"))
 
@@ -156,6 +158,11 @@ def greetings(entities):
                  'hi there', 'Hi, my name is Sage', 'hey good looking', 'sup homie']
     rand_int = random.randint(0, len(greetings) - 1)
     return greetings[rand_int]
+
+def compliment(entities):
+    compliments = ['thank you', 'thanks', 'much appreciated', 'you are the best', 'that is awesome', 'cool beans', 'yeye', 'read my mind']
+    rand_int = random.randint(0, len(compliments) - 1)
+    return compliments[rand_int]
 
 def stocks(entities):
     ticker = ''
