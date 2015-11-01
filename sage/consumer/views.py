@@ -168,4 +168,4 @@ def stocks(entities):
     open = response.get('Open')
     last_price = response.get('LastPrice')
 
-    return name + "\n" + open + "\n" + last_price
+    return name + "\n" + str(open) + "\n" + str(last_price)
