@@ -115,7 +115,9 @@ def math(entities):
     root = elementTree.fromstring(xml_response)
 
     for child in root:
-        return child.attrib
+        child_attrib = child.attrib
+        if child_attrib["title"] == "Plots": 
+            return child_attrib
 
     return root.attrib
 
