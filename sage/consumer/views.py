@@ -85,7 +85,7 @@ def food(entities, latitude, longitude):
     oauth_request.sign_request(oauth2.SignatureMethod_HMAC_SHA1(), consumer, token)
     signed_url = oauth_request.to_url()
 
-    response = urllib2.urlopen(url=signed_url).read()
+    response = json.loads(urllib2.urlopen(url=signed_url).read())
 
     return response.get('businesses')[0].get('name') + " " + \
            response.get('businesses')[0].get('location').get('display_address')[0]
