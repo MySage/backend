@@ -43,7 +43,7 @@ def consume(request):
         if intent == 'getWeather':
             return JsonResponse(dict(message=weather(entities=entities, latitude=42, longitude=-71), type='weather'))
         if intent == 'getRestaurantInfo':
-            return JsonResponse(dict(message=food(entities=entities, latitude=42, longitude=-71)), type='food')
+            return JsonResponse(dict(message=food(entities=entities, latitude=42, longitude=-71), type='food'))
         if intent == 'doEquation':
             return JsonResponse(dict(message=math(entities=entities), type='math'))
         if intent == 'getGreeting':
@@ -53,7 +53,7 @@ def consume(request):
         if intent == 'getCompliment':
             return JsonResponse(dict(message=compliment(), type='compliment'))
         if intent == 'None':
-            return JsonResponse(dict(message="What do you mean?"), type='exception')
+            return JsonResponse(dict(message="What do you mean?", type='exception'))
 
     speech = ''
     for r in response.get('positive'):
