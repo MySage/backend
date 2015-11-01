@@ -153,6 +153,7 @@ def math(entities):
     
     return ''
 
+
 def greetings(entities):
     greetings = ['hey lovely','hey good looking', 'hello', 'hey good looking', 'what up?',
                  'hi there', 'Hi, my name is Sage', 'hey good looking', 'sup homie', 'what up homie?', 'hey poopie head <3', 'Hey, I am Sage, your personal asisstant and BFFL']
