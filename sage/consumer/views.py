@@ -124,7 +124,7 @@ def math(entities):
         if entity.get('type') == "Equation":
             equation = entity.get('entity')
 
-    if math_operation == '' and equation == '':
+    if equation == '':
         return ''
 
     math_request = math_operation + ' ' + equation
