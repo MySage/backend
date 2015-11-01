@@ -145,7 +145,7 @@ def math(entities):
         child_attrib = child.attrib
         text = child_attrib["title"]
 
-        if text == "Plots" || text == "Result": 
+        if text == "Plots" or text == "Result": 
             for subpod in child:
                 for image in subpod:
                     return image.attrib["src"]
