@@ -9,7 +9,7 @@ from django.core import serializers
 import urllib2, urllib
 from django.views.decorators.csrf import csrf_exempt
 import xml.etree.ElementTree as elementTree
-
+import random
 
 CONSUMER_KEY = "a2TXKaRYAalONAuHnIA9yA"
 CONSUMER_SECRET = "1sSDt-631lGzN5BmzY0iRLnj7dI"
@@ -24,23 +24,39 @@ def consume(request):
         return HttpResponseNotAllowed
 
     message = str(json.loads(request.body)['message'])
-    #longitude = float(json.loads(request.body)['longitude'])
-    #latitude = float(json.loads(request.body)['latitude'])
+    response = json.loads(urllib2.urlopen(
+        str.format("https://api.havenondemand.com/1/api/sync/analyzesentiment/v1?text={}&apikey=5d1ba3b9-3913-4e21-8f1f-fcfd398bfaf3",
+                   urllib.quote_plus(message))).read())
 
-    response = json.loads(urllib2.urlopen(str.format("https://api.projectoxford.ai/luis/v1/application?{}&q={}",
-                                          app_id, urllib.quote_plus(message))).read())
+    if len(response.get('positive')) < 1 and len(response.get('negative')) < 1 and \
+            response.get('aggregate').get('sentiment') == 'neutral':
 
-    intent = response.get('intents')[0].get('intent')
+        #longitude = float(json.loads(request.body)['longitude'])
+        #latitude = float(json.loads(request.body)['latitude'])
 
-    entities = response.get('entities')
+        response = json.loads(urllib2.urlopen(str.format("https://api.projectoxford.ai/luis/v1/application?{}&q={}",
+                                              app_id, urllib.quote_plus(message))).read())
 
-    if intent == 'getWeather':
-        return JsonResponse(dict(message=weather(entities=entities, latitude=42, longitude=-71)))
-    if intent == 'getRestaurantInfo':
-        return JsonResponse(dict(message=food(entities=entities, latitude=42, longitude=-71)))
-    if intent == 'doEquation':
-        return JsonResponse(dict(message=math(entities=entities)))
-    return JsonResponse(dict(message=intent))
+        intent = response.get('intents')[0].get('intent')
+
+        entities = response.get('entities')
+
+        if intent == 'getWeather':
+            return JsonResponse(dict(message=weather(entities=entities, latitude=42, longitude=-71)))
+        if intent == 'getRestaurantInfo':
+            return JsonResponse(dict(message=food(entities=entities, latitude=42, longitude=-71)))
+        if intent == 'doEquation':
+            return JsonResponse(dict(message=math(entities=entities)))
+        if intent == 'None':
+            return JsonResponse(dict(message="What do you mean?"))
+
+    speech = ''
+    for r in response.get('positive'):
+        speech += "Hey! I " + r.get('sentiment') + " " + r.get('topic') + " too!\n"
+    for r in response.get('negative'):
+        speech += "Hey! I " + r.get('sentiment') + " " + r.get('topic') + " too!\n"
+
+    return JsonResponse(dict(message=speech))
 
 
 def weather(entities, latitude, longitude):
@@ -72,8 +88,8 @@ def food(entities, latitude, longitude):
             term = entity.get('entity')
 
     consumer = oauth2.Consumer(CONSUMER_KEY, CONSUMER_SECRET)
-    api_url = str.format("https://api.yelp.com/v2/search?term={}&ll={},{}&limit=1&sort=1", urllib.quote_plus(term)
-                         , latitude, longitude)
+    api_url = str.format("https://api.yelp.com/v2/search?term={}&ll={},{}&limit=1&radius_filter=15000&offset={}&sort=0",
+                         urllib.quote_plus(term), latitude, longitude, random.randint(0, 5))
     oauth_request = oauth2.Request(method="GET", url=api_url)
 
     oauth_request.update(
@@ -110,7 +126,8 @@ def math(entities):
         return ''
 
     math_request = math_operation + ' ' + equation
-    api_url = str.format("http://api.wolframalpha.com/v2/query?appid=KYP3UW-35R4EETYA3&input={}&format=image", urllib.quote_plus(math_request))
+    api_url = str.format("http://api.wolframalpha.com/v2/query?appid=KYP3UW-35R4EETYA3&input={}&format=image",
+                         urllib.quote_plus(math_request))
     xml_response =  urllib2.urlopen(url=api_url).read()
     root = elementTree.fromstring(xml_response)
 
