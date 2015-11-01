@@ -109,7 +109,7 @@ def math(entities):
         return ''
 
     math_request = math_operation + ' ' + equation
-    api_url = str.format("http://api.wolframalpha.com/v2/query?appid=xxx&input={}&format=image", urllib.quote_plus(math_request))
+    api_url = str.format("http://api.wolframalpha.com/v2/query?appid=KYP3UW-35R4EETYA3&input={}&format=image", urllib.quote_plus(math_request))
 
     return api_url
 
