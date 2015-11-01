@@ -47,6 +47,8 @@ def consume(request):
             return JsonResponse(dict(message=food(entities=entities, latitude=42, longitude=-71)))
         if intent == 'doEquation':
             return JsonResponse(dict(message=math(entities=entities)))
+        if intent == 'getGreeting':
+            return JsonResponse(dict(message=greetings(entities=entities)))
         if intent == 'None':
             return JsonResponse(dict(message="What do you mean?"))
 
@@ -140,3 +142,6 @@ def math(entities):
                     return image.attrib["src"]
 
     return ''
+
+def greetings(entities):
+    return 'hello you sweet ass motherfucker <3'
