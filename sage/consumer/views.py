@@ -69,7 +69,8 @@ def food(entities, latitude, longitude):
             term = entity.get('entity')
 
     consumer = oauth2.Consumer(CONSUMER_KEY, CONSUMER_SECRET)
-    api_url = str.format("https://api.yelp.com/v2/search?term={}&ll={},{}&limit=1&sort=1", term, latitude, longitude)
+    api_url = str.format("https://api.yelp.com/v2/search?term={}&ll={},{}&limit=1&sort=1", urllib.quote_plus(term)
+                         , latitude, longitude)
     oauth_request = oauth2.Request(method="GET", url=api_url)
 
     oauth_request.update(
@@ -89,6 +90,7 @@ def food(entities, latitude, longitude):
 
     return response.get('businesses')[0].get('name') + " " + \
            response.get('businesses')[0].get('location').get('ddisplay_address')[0]
+
 
 def math(entities):
     base_url = 'http://api.wolframalpha.com/v2/query?appid=xxx'
