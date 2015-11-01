@@ -117,16 +117,11 @@ def math(entities):
     for child in root:
         child_attrib = child.attrib
 
-        check_string = ''
-
-        if math_operation.lower() == "Plots":
-            check_string = "Plots"
-        else:
-            check_string = "Result"
-
-        if child_attrib["title"] == check_string: 
+        if child_attrib["title"] == "Plots": 
             for subpod in child:
                 for image in subpod:
                     return image.attrib["src"]
+        else:
+            return "cannot make query"
 
     return ''
