@@ -41,10 +41,10 @@ def consume(request):
 
         entities = response.get('entities')
         if intent == 'getWeather':
-            return JsonResponse(dict(message=weather(entities=entities, latitude=latitude, longitude=-longitude),
+            return JsonResponse(dict(message=weather(entities=entities, latitude=latitude, longitude=longitude),
                                      type='weather'))
         if intent == 'getRestaurantInfo':
-            return JsonResponse(dict(message=food(entities=entities, latitude=latitude, longitude=-longitude),
+            return JsonResponse(dict(message=food(entities=entities, latitude=latitude, longitude=longitude),
                                      type='food'))
         if intent == 'doEquation':
             return JsonResponse(dict(message=math(entities=entities), type='math'))
@@ -91,7 +91,7 @@ def food(entities, latitude, longitude):
 
     term = 'food'
     for entity in entities:
-        if entity.get('type') == "Search":
+        if entity.get('type') == "Information":
             term = entity.get('entity')
 
     consumer = oauth2.Consumer(CONSUMER_KEY, CONSUMER_SECRET)
