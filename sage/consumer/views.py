@@ -115,13 +115,14 @@ def math(entities):
     tree = elementTree.fromstring(xml_response)
     root = tree.getroot()
 
-    for pod in root.findall('pod'):
-        return pod
+    return root.findall('pod')
+
+    # for pod in root.findall('pod'):
+    #     return pod
         # if pod.get('title') == "Plots":
         #     return pod
         #     subpod = pod.find('subpod')
         #     image = subpod.find('img')
         #     return image.get('src')
 
-    return ''
 
