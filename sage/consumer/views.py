@@ -117,9 +117,10 @@ def math(entities):
 
     for pod in root.findall('pod'):
         if pod.get('title') == "Plots":
-            subpod = pod.find('subpod')
-            image = subpod.find('img')
-            return image.get('src')
+            return pod
+            # subpod = pod.find('subpod')
+            # image = subpod.find('img')
+            # return image.get('src')
 
     return ''
 
