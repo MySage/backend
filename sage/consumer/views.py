@@ -31,8 +31,8 @@ def consume(request):
     if len(response.get('positive')) < 1 and len(response.get('negative')) < 1 and \
             response.get('aggregate').get('sentiment') == 'neutral':
 
-        #longitude = float(json.loads(request.body)['longitude'])
-        #latitude = float(json.loads(request.body)['latitude'])
+        longitude = float(json.loads(request.body)['longitude'])
+        latitude = float(json.loads(request.body)['latitude'])
 
         response = json.loads(urllib2.urlopen(str.format("https://api.projectoxford.ai/luis/v1/application?{}&q={}",
                                               app_id, urllib.quote_plus(message))).read())
@@ -41,9 +41,11 @@ def consume(request):
 
         entities = response.get('entities')
         if intent == 'getWeather':
-            return JsonResponse(dict(message=weather(entities=entities, latitude=42, longitude=-71), type='weather'))
+            return JsonResponse(dict(message=weather(entities=entities, latitude=latitude, longitude=-longitude),
+                                     type='weather'))
         if intent == 'getRestaurantInfo':
-            return JsonResponse(dict(message=food(entities=entities, latitude=42, longitude=-71), type='food'))
+            return JsonResponse(dict(message=food(entities=entities, latitude=latitude, longitude=-longitude),
+                                     type='food'))
         if intent == 'doEquation':
             return JsonResponse(dict(message=math(entities=entities), type='math'))
         if intent == 'getGreeting':
