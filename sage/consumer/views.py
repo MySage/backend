@@ -141,10 +141,6 @@ def math(entities):
     xml_response = urllib2.urlopen(url=api_url).read()
     root = elementTree.fromstring(xml_response)
 
-
-    if math_operation == '':
-        return root.attrib
-    
     for child in root:
         child_attrib = child.attrib
 
@@ -152,6 +148,11 @@ def math(entities):
             for subpod in child:
                 for image in subpod:
                     return image.attrib["src"]
+        else if child_attrib["title"] = "Result":
+            for subpod in child:
+                for image in subpod:
+                    return image.attrib["src"]
+
 
     return ''
 
