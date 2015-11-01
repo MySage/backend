@@ -113,9 +113,7 @@ def math(entities):
     api_url = str.format("http://api.wolframalpha.com/v2/query?appid=KYP3UW-35R4EETYA3&input={}&format=image", urllib.quote_plus(math_request))
     xml_response =  urllib2.urlopen(url=api_url).read()
     tree = elementTree.fromstring(xml_response)
-    root = tree.getroot()
-
-    return root
+    return ''
 
     # for pod in root.findall('pod'):
     #     return pod
