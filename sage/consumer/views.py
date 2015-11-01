@@ -9,7 +9,7 @@ from django.core import serializers
 import urllib2, urllib
 from django.views.decorators.csrf import csrf_exempt
 import xml.etree.ElementTree as elementTree
-
+import random
 
 CONSUMER_KEY = "a2TXKaRYAalONAuHnIA9yA"
 CONSUMER_SECRET = "1sSDt-631lGzN5BmzY0iRLnj7dI"
@@ -86,8 +86,8 @@ def food(entities, latitude, longitude):
             term = entity.get('entity')
 
     consumer = oauth2.Consumer(CONSUMER_KEY, CONSUMER_SECRET)
-    api_url = str.format("https://api.yelp.com/v2/search?term={}&ll={},{}&limit=1", urllib.quote_plus(term)
-                         , latitude, longitude)
+    api_url = str.format("https://api.yelp.com/v2/search?term={}&ll={},{}&limit=1&radius_filter=5000&offset={}&sort=0",
+                         urllib.quote_plus(term), latitude, longitude, random.randint(0, 5))
     oauth_request = oauth2.Request(method="GET", url=api_url)
 
     oauth_request.update(
@@ -124,8 +124,9 @@ def math(entities):
         return ''
 
     math_request = math_operation + ' ' + equation
-    api_url = str.format("http://api.wolframalpha.com/v2/query?appid=KYP3UW-35R4EETYA3&input={}&format=image", urllib.quote_plus(math_request))
-    xml_response =  urllib2.urlopen(url=api_url).read()
+    api_url = str.format("http://api.wolframalpha.com/v2/query?appid=KYP3UW-35R4EETYA3&input={}&format=image",
+                         urllib.quote_plus(math_request))
+    xml_response = urllib2.urlopen(url=api_url).read()
     tree = elementTree.fromstring(xml_response)
     root = tree.getroot()
 
