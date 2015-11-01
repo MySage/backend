@@ -91,9 +91,6 @@ IF /I "%IN_PLACE_DEPLOYMENT%" NEQ "1" (
   IF !ERRORLEVEL! NEQ 0 goto error
 )
 
-IF NOT EXIST "%DEPLOYMENT_TARGET%\requirements.txt" goto postPython
-IF EXIST "%DEPLOYMENT_TARGET%\.skipPythonDeployment" goto postPython
-
 echo Detected requirements.txt.  You can skip Python specific steps with a .skipPythonDeployment file.
 
 :: 2. Select Python version
@@ -142,7 +139,7 @@ IF EXIST "%DEPLOYMENT_TARGET%\manage.py" (
       IF NOT EXIST "%DEPLOYMENT_TARGET%\static" (
         MKDIR "%DEPLOYMENT_TARGET%\static"
       )
-      env\scripts\python manage.py collectstatic --noinput --clear
+      env\scripts\python manage.py runserver 0.0.0.0:8000
     )
   )
 )
