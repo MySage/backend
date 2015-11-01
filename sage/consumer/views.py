@@ -86,7 +86,7 @@ def food(entities, latitude, longitude):
             term = entity.get('entity')
 
     consumer = oauth2.Consumer(CONSUMER_KEY, CONSUMER_SECRET)
-    api_url = str.format("https://api.yelp.com/v2/search?term={}&ll={},{}&limit=1&sort=1", urllib.quote_plus(term)
+    api_url = str.format("https://api.yelp.com/v2/search?term={}&ll={},{}&limit=1", urllib.quote_plus(term)
                          , latitude, longitude)
     oauth_request = oauth2.Request(method="GET", url=api_url)
 
