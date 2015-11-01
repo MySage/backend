@@ -49,6 +49,8 @@ def consume(request):
             return JsonResponse(dict(message=math(entities=entities)))
         if intent == 'getGreeting':
             return JsonResponse(dict(message=greetings(entities=entities)))
+        if intent == 'getStocks':
+            return JsonResponse(dict(message=stocks(entities=entities)))
         if intent == 'None':
             return JsonResponse(dict(message="What do you mean?"))
 
@@ -58,7 +60,7 @@ def consume(request):
     for r in response.get('negative'):
         speech += "Hey! I " + r.get('sentiment') + " " + r.get('topic') + " too!\n"
 
-    return JsonResponse(dict(message=speech))
+    return JsonResponse(dict(message=speech if len(speech) > 0 else "What do you mean?"))
 
 
 def weather(entities, latitude, longitude):
@@ -130,7 +132,7 @@ def math(entities):
     math_request = math_operation + ' ' + equation
     api_url = str.format("http://api.wolframalpha.com/v2/query?appid=KYP3UW-35R4EETYA3&input={}&format=image",
                          urllib.quote_plus(math_request))
-    xml_response =  urllib2.urlopen(url=api_url).read()
+    xml_response = urllib2.urlopen(url=api_url).read()
     root = elementTree.fromstring(xml_response)
 
     for child in root:
@@ -144,6 +146,26 @@ def math(entities):
     return ''
 
 def greetings(entities):
-    greetings = ['hey lovely','hey good looking', 'hello', 'how are you doing?', 'hey good looking', 'what up?', 'hi there', 'Hi, my name is Sage', 'hey good looking', 'sup homie']
+    greetings = ['hey lovely','hey good looking', 'hello', 'how are you doing?', 'hey good looking', 'what up?',
+                 'hi there', 'Hi, my name is Sage', 'hey good looking', 'sup homie']
     rand_int = random.randint(0, len(greetings) - 1)
     return greetings[rand_int]
+
+def stocks(entities):
+    ticker = ''
+
+    for entity in entities:
+        if entity.get('type') == "Search":
+            ticker = entity.get('entity')
+
+    if ticker == '':
+        return None
+    api_url = str.format("http://dev.markitondemand.com/Api/v2/Quote/json?symbol={}", ticker)
+
+    response = json.loads(urllib2.urlopen(url=api_url).read())
+
+    name = response.get('Name')
+    open = response.get('Open')
+    last_price = response.get('LastPrice')
+
+    return name + "\n" + open + "\n" + last_price
