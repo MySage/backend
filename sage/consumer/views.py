@@ -28,7 +28,8 @@ def consume(request):
         str.format("https://api.havenondemand.com/1/api/sync/analyzesentiment/v1?text={}&apikey=5d1ba3b9-3913-4e21-8f1f-fcfd398bfaf3",
                    urllib.quote_plus(message))).read())
 
-    if response.get('aggregate').get('sentiment') == 'neutral':
+    if len(response.get('positive')) < 1 and len(response.get('negative')) < 1 and \
+            response.get('aggregate').get('sentiment') == 'neutral':
 
         #longitude = float(json.loads(request.body)['longitude'])
         #latitude = float(json.loads(request.body)['latitude'])
@@ -46,8 +47,8 @@ def consume(request):
             return JsonResponse(dict(message=food(entities=entities, latitude=42, longitude=-71)))
         if intent == 'doEquation':
             return JsonResponse(dict(message=math(entities=entities)))
-    speech = ''
 
+    speech = ''
     for r in response.get('positive'):
         speech += "Hey! I " + r.get('sentiment') + " " + r.get('topic') + " too!\n"
     for r in response.get('negative'):
